@@ -1,4 +1,4 @@
-# FullStack-Backend
+# FullStack-Frontend
 
 
 Objetivo : Criar o Frontend usando React para integração da API desenvolvida no Backend.</br>
