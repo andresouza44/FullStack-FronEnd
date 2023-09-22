@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../App.css';
 import axios from 'axios';
 
@@ -11,10 +11,22 @@ import axios from 'axios';
       descricao:"",
       valorServico:"",
       valorPago:"",
-      dataPagamento:"",    
+      dataPagamento:"",  
+     
  });
  const [servicos, setServicos]= useState([]);
- 
+
+ useEffect (()=> {
+  loadServicos();
+}, []);
+
+const loadServicos = async () => {
+  const result = await axios.get("http://localhost:8080/servico");
+  setServicos(result.data);
+  
+}
+
+
  const onInputChange = (e) => {
    setServico({...servico, [e.target.name]: e.target.value})
 
@@ -22,7 +34,8 @@ import axios from 'axios';
 
  const onSubmit =  async (event) => {
    event.preventDefault();
-   await axios.post("http://localhost:8080/servico",servico)
+   const result = await axios.post("http://localhost:8080/servico",servico)
+   
  }
 
 return (
@@ -63,7 +76,33 @@ return (
         <input class="btn btn-primary" type="submit" value="Cadastrar" />
       </div>
     </form>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Descrição</th>
+      <th scope="col">Valor</th>
+      <th scope="col">Status</th>
+      <th scope="col">Opções</th>
+    </tr>
+  </thead>
+  <tbody> {servicos.map((serv, index) => (
+    <tr>
+      <th scope="row"key ={index}>{index+1} </th>
+      <td>{serv.nomeCliente}</td>   
+      <td>{serv.descricao}</td>
+      <td>{serv.valorServico}</td>
+      <td>{serv.status}</td>
+      
+    </tr>
+  ))}
+  </tbody>
+</table>
+
    </div>
+   
+
   );
 }
 
