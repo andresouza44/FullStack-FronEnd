@@ -1,3 +1,15 @@
+# FullStack-Frontend   
+## Projeto Servico
+
+Objetivo : Criar o Frontend usando React para integração da API desenvolvida no Backend.</br>
+[Aplicação Backend](https://github.com/andresouza44/spring-boot3-exercicios/blob/main/fulstack-backend)
+### 🚀 Tecnologias
+As seguintes tecnologias foram utilizadas no desenvolvimento do Projeto: </br>
+<div>
+<img  loading="lazy" src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black">
+<img  loading="lazy" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
