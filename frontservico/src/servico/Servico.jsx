@@ -25,6 +25,16 @@ const loadServicos = async () => {
   setServicos(result.data);
   
 }
+const listaPendente = async() =>{
+  const result = await axios.get("http://localhost:8080/servico/pendente");
+  setServicos(result.data)
+}
+const listaCancelados = async () =>{
+  const result = await axios.get("http://localhost:8080/servico/cancelado");
+  setServicos(result.data)
+
+
+}
 
 
  const onInputChange = (e) => {
@@ -34,16 +44,29 @@ const loadServicos = async () => {
 
  const onSubmit =  async (event) => {
    event.preventDefault();
-   const result = await axios.post("http://localhost:8080/servico",servico)
+   await axios.post("http://localhost:8080/servico",servico)
+   loadServicos()
    
  }
+
+ const cancelarServico = async (id) => {
+  await axios.put(`http://localhost:8080/servico/cancelar/${id}`)
+  loadServicos()
+  console.log(servico.data)
+
+ }
+
+ const deleteServico = async (id) => {
+  await axios.delete(`http://localhost:8080/servico/${id}`)
+  loadServicos()
+}
 
 return (
    <div className="container">
     <h1>Cadastro de Serviços</h1>
     <form  onSubmit={onSubmit}>
       <div className='col-6'>
-        <div>
+        <div  >
           <label className='form-label'>Nome do Cliente: </label>
           <input  value={servico.nomeCliente} name="nomeCliente" type="text" className='form-control' onChange={onInputChange}/>
         </div>
@@ -76,9 +99,14 @@ return (
         <input class="btn btn-primary" type="submit" value="Cadastrar" />
       </div>
     </form>
+    <hr/>
+    <button type="button" class="btn btn-success btn-sm mx-1" onClick={() =>loadServicos()}>Listar Todos</button>
+    <button type="button" class="btn btn-success btn-sm mx-1"onClick={() => listaPendente()}>Pagamento Pendente</button>
+    <button type="button" class="btn btn-success btn-sm mx-1" onClick={() => listaCancelados()}>Serviços Cancelados</button>
+    <br/><br/>
     <table class="table">
   <thead>
-    <tr>
+    <tr class="table-secondary">
       <th scope="col">#</th>
       <th scope="col">Nome</th>
       <th scope="col">Descrição</th>
@@ -87,13 +115,20 @@ return (
       <th scope="col">Opções</th>
     </tr>
   </thead>
-  <tbody> {servicos.map((serv, index) => (
+  <tbody > {servicos.map((serv, index) => (
     <tr>
       <th scope="row"key ={index}>{index+1} </th>
-      <td>{serv.nomeCliente}</td>   
+      <td>{serv.nomeCliente}</td>  
       <td>{serv.descricao}</td>
       <td>{serv.valorServico}</td>
       <td>{serv.status}</td>
+      
+      {serv.status !=="CANCELADO"  &&
+      <button className="btn btn-primary btn-sm mx-1 table-primary" onClick={() => setServico(serv)}>Alterar</button> }
+     {serv.status !=="CANCELADO"  &&
+      <button className="btn btn-danger btn-sm mx-1 table-danger" onClick={() => deleteServico(serv.id)}>Excluir</button> }
+      <button className="btn btn-warning btn-sm mx-1 table-warning" onClick={()=>cancelarServico(serv.id)}>Cancelar</button>
+    
       
     </tr>
   ))}
